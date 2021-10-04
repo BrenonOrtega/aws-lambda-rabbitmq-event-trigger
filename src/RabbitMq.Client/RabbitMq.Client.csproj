@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="flurl" Version="3.0.2" />
+    <PackageReference Include="flurl.http" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+   <None Include="appsettings.json">
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+  </ItemGroup>
+
+</Project>

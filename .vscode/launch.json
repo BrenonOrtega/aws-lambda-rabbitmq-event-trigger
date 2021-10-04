@@ -1,0 +1,80 @@
+{
+  "configurations": [
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "AWS.LambdaTrigger.RabbitMq.EventSource:AWS.LambdaTrigger.RabbitMq.EventSource::AWS.LambdaTrigger.RabbitMq.EventSource.Function::FunctionHandler (dotnetcore3.1)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "${workspaceFolder}/src/AWS.LambdaTrigger.RabbitMq.EventSource",
+        "lambdaHandler": "AWS.LambdaTrigger.RabbitMq.EventSource::AWS.LambdaTrigger.RabbitMq.EventSource.Function::FunctionHandler"
+      },
+      "lambda": {
+        "runtime": "dotnetcore3.1",
+        "payload": {
+          "json": {
+            "eventSource": "AmazonMQ",
+            "eventSourceArn": "AmazonMQ@rabbitmq-aws-prod:bsdaml2kngfsdk-fasdkjfbam-asdkjas.arn",
+            "Messages": [
+              {
+                "messageID": "teste",
+                "messageType": "a",
+                "timestamp": 12314213,
+                "deliveryMode": 0,
+                "correlationID": "b11ba6ad-186c-4527-a7ca-b01af416bf9b",
+                "replyTo": "",
+                "destination": "",
+                "redelivered": false,
+                "type": "",
+                "priority": 0,
+                "data": "{\n\"Data\": { \"serialize\": [ \"this\", \"string\"] }\n}",
+                "brokerInTime": 0,
+                "brokerOutTime": 0
+              },
+              {
+                "messageID": "Teste 2",
+                "messageType": "ReceivedMessage",
+                "timestamp": 12351512412,
+                "deliveryMode": 0,
+                "correlationID": "b11ba6ad-186c-4527-a7ca-b01af416bf9a",
+                "replyTo": "",
+                "destination": "",
+                "redelivered": false,
+                "type": "",
+                "priority": 1,
+                "data": {
+                  "message": "just serialize this at test 2"
+                },
+                "brokerInTime": 789,
+                "brokerOutTime": 101112
+              }
+            ]
+          }
+        },
+        "environmentVariables": {}
+      }
+    },
+    {
+      "name": ".NET Core Launch (console)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build publisher",
+      "program": "${workspaceFolder}/src/AWS.LambdaTrigger.RabbitMq.EventSource.Publisher/bin/Debug/net5.0/AWS.LambdaTrigger.RabbitMq.EventSource.Publisher.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/AWS.LambdaTrigger.RabbitMq.EventSource.Publisher",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": "launch rabbit client",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build rabbitmq client",
+      "program": "${workspaceFolder}/src/RabbitMq.Client/bin/Debug/net5.0/RabbitMq.Client.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/RabbitMq.Client",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    }
+  ]
+}
