@@ -30,7 +30,7 @@ namespace AWS.LambdaTrigger.RabbitMq.EventSource
             var username = config["RabbitMqCredentials:Username"];
             var password = config["RabbitMqCredentials:Password"];
 
-            var allCredentials = new HashSet<string>() { rabbitmqUri, messageQueue, rabbitMqSecret, username, password } ;
+            var allCredentials = new HashSet<string>() { rabbitmqUri, messageQueue, rabbitMqSecret, username, password };
             allCredentials.ThrowIfNullOrEmpty("Some required broker access credentials were not provided");
 
             var csc = new CancellationTokenSource();
@@ -66,9 +66,9 @@ namespace AWS.LambdaTrigger.RabbitMq.EventSource
         {
             var isNullOrEmpty = string.IsNullOrEmpty(@string);
 
-            if(isNullOrEmpty)
+            if (isNullOrEmpty)
                 throw new ArgumentException(errorMessage);
-            
+
             return isNullOrEmpty;
         });
 

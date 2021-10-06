@@ -13,42 +13,41 @@
         "runtime": "dotnetcore3.1",
         "payload": {
           "json": {
-            "eventSource": "AmazonMQ",
-            "eventSourceArn": "AmazonMQ@rabbitmq-aws-prod:bsdaml2kngfsdk-fasdkjfbam-asdkjas.arn",
-            "Messages": [
-              {
-                "messageID": "teste",
-                "messageType": "a",
-                "timestamp": 12314213,
-                "deliveryMode": 0,
-                "correlationID": "b11ba6ad-186c-4527-a7ca-b01af416bf9b",
-                "replyTo": "",
-                "destination": "",
-                "redelivered": false,
-                "type": "",
-                "priority": 0,
-                "data": "{\n\"Data\": { \"serialize\": [ \"this\", \"string\"] }\n}",
-                "brokerInTime": 0,
-                "brokerOutTime": 0
-              },
-              {
-                "messageID": "Teste 2",
-                "messageType": "ReceivedMessage",
-                "timestamp": 12351512412,
-                "deliveryMode": 0,
-                "correlationID": "b11ba6ad-186c-4527-a7ca-b01af416bf9a",
-                "replyTo": "",
-                "destination": "",
-                "redelivered": false,
-                "type": "",
-                "priority": 1,
-                "data": {
-                  "message": "just serialize this at test 2"
-                },
-                "brokerInTime": 789,
-                "brokerOutTime": 101112
-              }
-            ]
+            "eventSource": "aws:rmq",
+            "eventSourceArn": "arn:aws:mq:us-west-2:112556298976:broker:pizzaBroker:b-9bcfa592-423a-4942-879d-eb284b418fc8",
+            "rmqMessagesByQueue": {
+              "Queue::VHost": [
+                {
+                  "basicProperties": {
+                    "contentType": "text/plain",
+                    "contentEncoding": null,
+                    "headers": {
+                      "header1": {
+                        "bytes": [118, 97, 108, 117, 101, 49]
+                      },
+                      "header2": {
+                        "bytes": [118, 97, 108, 117, 101, 50]
+                      },
+                      "numberInHeader": 10
+                    },
+                    "deliveryMode": 1,
+                    "priority": 34,
+                    "correlationId": null,
+                    "replyTo": null,
+                    "expiration": "60000",
+                    "messageId": null,
+                    "timestamp": "Jan 1, 1970, 12:33:41 AM",
+                    "type": null,
+                    "userId": "AIDACKCEVSQ6C2EXAMPLE",
+                    "appId": null,
+                    "clusterId": null,
+                    "bodySize": 80
+                  },
+                  "redelivered": false,
+                  "data": "VGhpcyBpcyBhIGJhc2UgNjQgZW5jb2RlciBqdXN0IHRvIHRlc3Q="
+                }
+              ]
+            }
           }
         },
         "environmentVariables": {}

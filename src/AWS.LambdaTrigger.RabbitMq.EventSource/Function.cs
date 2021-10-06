@@ -1,13 +1,11 @@
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using MassTransit;
 using Amazon.Lambda.Core;
-using System.Threading;
 using System.IO;
 using System.Text.Json;
-using AWS.LambdaTrigger.RabbitMq.EventSource.Policies;
 using System;
+using AWS.LambdaTrigger.RabbitMq.EventSource.Models;
+using System.Linq;
+using System.Text;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -24,38 +22,18 @@ namespace AWS.LambdaTrigger.RabbitMq.EventSource
         /// <returns></returns>
         public async Task FunctionHandler(Stream data, ILambdaContext context)
         {
-            var bytes = new byte[data.Length + 15];
-            var bytesToRead = (int)data.Length;
-            var readBytes = 0;
+            var useHost = false;
+            var log = new Action<string>(context.Logger.LogLine);
+            var @event = await JsonSerializer.DeserializeAsync<Event>(data);
 
-            do
-            {
-                var n = await data.ReadAsync(bytes, readBytes, 15);
-                readBytes += n;
-                bytesToRead -= n;
-            } while (bytesToRead > 0);
+            var encodedMessages = @event.RmqMessagesByQueue.Queue.Select(message => Convert.FromBase64String(message.Data));
+            var messages = encodedMessages.Select(message => Encoding.UTF8.GetString(message));
 
-            context.Logger.Log($"Starting application at { DateTime.Now }.");
-            context.Logger.Log(JsonSerializer.Serialize(bytes, new JsonSerializerOptions { WriteIndented = true }));
-            
-            var host = new HostBuilder()
-                .ConfigureAppConfiguration(b => b.AddLambdaConfiguration())
-                   .ConfigureServices((hostContext, services) => services.ConfigureLambdaServices(hostContext.Configuration, context)
-                    .AddSingleton<TaskCircuitBreaker>())
-                .Build()
-                ;
+            foreach(var message in messages)
+                log(message);
 
-            var csc = host.Services.GetRequiredService<CancellationTokenSource>();
-            var bus = host.Services.GetRequiredService<IBusControl>();
-            
-            try
-            {
-                await host.RunAsync(csc.Token);
-            }
-            finally
-            {
-                await host.StopAsync();
-            }
+            if (useHost)
+                await Program.HostStart(data, context);
 
             context.Logger.Log("Ending Lambda Function Invocation.");
         }
